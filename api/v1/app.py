@@ -2,7 +2,7 @@
 """module to start an api"""
 
 
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 from os import getenv
 from api.v1.views import app_views
@@ -15,6 +15,12 @@ app.register_blueprint(app_views)
 def close(self):
     """Method that calls storage.close()"""
     storage.close()
+
+
+@app.errorhandler(404)
+def error404(error):
+    """custom 404 error handler"""
+    return make_response(jsonify("error": "Not found"))
 
 
 if __name__ == "__main__":
