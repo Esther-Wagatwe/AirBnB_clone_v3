@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """module to create route"""
 
-from api.v1.views import app_views
+import models
+from models import storage
+from models.base_model import BaseModel
 from flask import jsonify
-
+from api.v1.views import app_views
 
 @app_views.route('/status')
 def status():
