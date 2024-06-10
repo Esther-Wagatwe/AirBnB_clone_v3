@@ -4,7 +4,6 @@ from api.v1.views import app_views
 from flask import jsonify, abort
 from models.state import State
 from models import storage
-import uuid
 
 
 @app_views.route('/states')
@@ -24,11 +23,10 @@ def stateID(state_id):
     return jsonify(state[0])
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state(state_id):
     """
-    Deletes a State Object
+    Deletes a State Object with a specific ID
     """
 
     state = storage.get(State, state_id)
@@ -39,4 +37,4 @@ def delete_state(state_id):
     storage.delete(state)
     storage.save()
 
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
