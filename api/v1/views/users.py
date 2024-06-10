@@ -18,7 +18,7 @@ def get_users():
 def get_specific_user(user_id):
     """Retrieves a specific user wrt id"""
     user = [obj.to_dict() for obj in storage.all("User").values()
-               if obj.id == user_id]
+            if obj.id == user_id]
 
     if not user:
         abort(404)
@@ -65,7 +65,7 @@ def update_user(user_id):
     """Updates the values of an User object"""
     users = storage.all("User").values()
     user = [obj.to_dict() for obj in users
-               if obj.id == user_id]
+            if obj.id == user_id]
 
     if not user:
         abort(404)
