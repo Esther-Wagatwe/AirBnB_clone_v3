@@ -54,13 +54,14 @@ def new_amenity():
     amenity = []
     amenity.append(new_amenity.to_dict())
 
-    return jsonify(new_amenity), 201
+    return jsonify(amenity[0]), 201
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_amenity(amenity_id):
     """Updates the values of an Amenity object"""
-    amenity = [obj.to_dict() for obj in storage.all("Amenity").values()
+    amenities = storage.all("Amenity").values()
+    amenity = [obj.to_dict() for obj in amenities
                if obj.id == amenity_id]
 
     if not amenity:
@@ -70,7 +71,9 @@ def update_amenity(amenity_id):
     if not req_data:
         abort(400, "Not a JSON")
 
-    amenity[0]['name'] = req_data['name']
+    for obj in amenities:
+        if obj.id == amenity_id:
+            obj.name = req_data['name']
 
     storage.save()
 
