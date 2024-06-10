@@ -9,7 +9,7 @@ from models import storage
 from models.user import User
 
 
-@app_views.route('/place/<place_id>/reviews')
+@app_views.route('/places/<place_id>/reviews')
 def reviews_list(place_id):
     """Retrieves the list of all Review objects of a City"""
     place = storage.get(Place, place_id)
