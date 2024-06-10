@@ -43,7 +43,7 @@ def post():
     state = []
     req_data = request.get_json()
     if not req_data:
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
     if 'name' not in req_data:
         abort(400, 'Missing name')
     new_state = State(name=req_data['name'])
@@ -61,7 +61,7 @@ def put(state_id):
     if not state:
         abort(404)
     if not request.get_json():
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
     state[0]['name'] == request.json['name']
     for obj in states:
         if obj.id == state_id:
