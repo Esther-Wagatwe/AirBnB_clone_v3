@@ -29,7 +29,7 @@ def review_obj(review_id):
 
 
 @app_views.route('reviews/<review_id>', methods=['DELETE'])
-def delete(review_id):
+def delete_review(review_id):
     """Deletes a Review object"""
     review = storage.get(Review, review_id)
     if not review:
