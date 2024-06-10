@@ -18,7 +18,7 @@ def stateID(state_id):
     """Returns state object according to ID"""
     states = storage.all("State").values()
     state = [obj.to_dict() for obj in states if obj.id == state_id]
-    if state[0] is None:
+    if not state:
         abort(404)
     return jsonify(state[0])
 
