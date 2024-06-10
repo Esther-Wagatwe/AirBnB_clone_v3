@@ -3,7 +3,7 @@
 that handles all default RESTFul API actions"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
-from model.places import Place
+from models.place import Place
 from models.city import City
 from models import storage
 from models.user import User
