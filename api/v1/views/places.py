@@ -12,7 +12,7 @@ from models.user import User
 @app_views.route('/cities/<city_id>/places')
 def places_list(city_id):
     """Retrieves the list of all Place objects of a City"""
-    city = storage.get('City', city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     places = [place.to_dict() for place in city.places]
@@ -22,17 +22,16 @@ def places_list(city_id):
 @app_views.route('/places/<place_id>')
 def place_obj(place_id):
     """Retrieves a place object"""
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    return jsonify(place)
-
+    return jsonify(place.to_dict())
 
 
 @app_views.route('places/<place_id>', methods=['DELETE'])
 def delete(place_id):
     """Deletes a Place object"""
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
     storage.delete(place)
@@ -45,7 +44,7 @@ def post_place(city_id):
     """Creates a Place"""
     place = []
     req_data = request.get_json()
-    city = storage.get('City', city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     if not req_data:
@@ -56,12 +55,13 @@ def post_place(city_id):
         abort(400, 'Missing name')
 
     # Retrieve the User object with the given user_id
-    user = storage.get('User', req_data['user_id'])
+    user = storage.get(User, req_data['user_id'])
     if not user:
         abort(404)
 
     # Create the new Place object
-    new_place = Place(name=req_data['name'], user_id=req_data['user_id'], city_id=city_id)
+    new_place = Place(name=req_data['name'], user_id=req_data['user_id'],
+                      city_id=city_id)
     storage.new(new_place)
     storage.save()
     place.append(new_place.to_dict())
@@ -73,7 +73,7 @@ def put_place(place_id):
     """Updates a Place object."""
     req_data = request.get_json()
 
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
 
     if not place:
         abort(404)
@@ -104,4 +104,3 @@ def put_place(place_id):
 
     # Return the updated Place object as JSON
     return jsonify(place.to_dict()), 200
-
